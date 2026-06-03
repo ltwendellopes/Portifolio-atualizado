@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projetos — Wendel Lopes</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .projetos-hero {
+            padding: 5% 8% 2%;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .projetos-hero__titulo {
+            font-family: var(--fonte-titulo);
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 700;
+            color: var(--texto-prim);
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+        .projetos-hero__titulo span { color: var(--azul); font-style: italic; }
+        .projetos-hero__linha { width: 48px; height: 3px; background: var(--azul); border-radius: 2px; margin-bottom: 20px; }
+        .projetos-hero__desc { font-size: 1.05rem; color: var(--texto-sec); line-height: 1.8; max-width: 520px; font-weight: 300; }
+
+        .projetos-controles {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 16px; padding: 0 8% 2%;
+            max-width: 1200px; margin: 0 auto; width: 100%;
+        }
+        .filtros { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filtro-btn {
+            font-family: var(--fonte-corpo); font-size: 0.88rem; font-weight: 500;
+            padding: 8px 18px; border-radius: 8px; border: 1px solid var(--borda);
+            background: transparent; color: var(--texto-sec); cursor: pointer; transition: all var(--trans);
+        }
+        .filtro-btn:hover { border-color: var(--azul); color: var(--azul); background: var(--azul-dim); }
+        .filtro-btn.ativo { background: var(--azul); border-color: var(--azul); color: #0A0E1A; font-weight: 600; }
+        .busca-wrapper { position: relative; }
+        .busca-wrapper svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--texto-hint); width: 16px; height: 16px; }
+        .busca-input {
+            font-family: var(--fonte-corpo); font-size: 0.9rem; padding: 9px 16px 9px 36px;
+            border-radius: 8px; border: 1px solid var(--borda); background: var(--azul-dim);
+            color: var(--texto-prim); width: 220px; outline: none; transition: border-color var(--trans);
+        }
+        .busca-input::placeholder { color: var(--texto-hint); }
+        .busca-input:focus { border-color: var(--azul); }
+
+        .projetos-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px; padding: 0 8% 6%; max-width: 1200px; margin: 0 auto; width: 100%;
+        }
+        .projeto-card {
+            background: var(--bg-raised); border: 1px solid var(--borda);
+            border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+            transition: border-color var(--trans), transform var(--trans);
+        }
+        .projeto-card:hover { border-color: var(--azul-border); transform: translateY(-4px); }
+
+        .card-header { padding: 20px 20px 14px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .card-header__esq { display: flex; align-items: center; gap: 14px; }
+        .card-icone {
+            width: 44px; height: 44px; border-radius: 10px; background: var(--azul-dim);
+            border: 1px solid var(--azul-border); display: flex; align-items: center;
+            justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+        }
+        .card-titulo { font-family: var(--fonte-titulo); font-size: 1.05rem; font-weight: 700; color: var(--texto-prim); line-height: 1.3; }
+        .card-tag {
+            font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+            background: var(--azul-dim); color: var(--azul); border: 1px solid var(--azul-border);
+            margin-top: 5px; display: inline-block;
+        }
+        .card-favorito { background: none; border: none; cursor: pointer; color: var(--texto-hint); font-size: 1.1rem; padding: 4px; transition: color var(--trans); flex-shrink: 0; }
+        .card-favorito:hover { color: var(--azul); }
+        .card-desc { padding: 0 20px 14px; font-size: 0.92rem; color: var(--texto-sec); line-height: 1.75; font-weight: 300; flex: 1; }
+        .card-techs { padding: 0 20px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--texto-sec); }
+        .card-techs span { display: flex; align-items: center; gap: 4px; }
+        .card-techs .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--texto-hint); display: inline-block; }
+        .card-btns { padding: 0 20px 16px; display: flex; gap: 10px; }
+        .btn-github {
+            display: flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 8px;
+            border: 1px solid var(--borda); background: transparent; color: var(--texto-sec);
+            font-family: var(--fonte-corpo); font-size: 0.85rem; font-weight: 500;
+            text-decoration: none; transition: all var(--trans);
+        }
+        .btn-github:hover { border-color: var(--azul); color: var(--azul); }
+        .btn-detalhes {
+            display: flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 8px;
+            border: 1px solid var(--azul); background: var(--azul-dim); color: var(--azul);
+            font-family: var(--fonte-corpo); font-size: 0.85rem; font-weight: 600;
+            text-decoration: none; transition: all var(--trans); cursor: pointer;
+        }
+        .btn-detalhes:hover { background: var(--azul); color: #0A0E1A; }
+
+        .card-preview {
+            margin: 0 20px 20px; border-radius: 8px; overflow: hidden;
+            border: 1px solid var(--borda); background: var(--bg-deep);
+            min-height: 130px; display: flex; align-items: center; justify-content: center;
+        }
+        .preview-code { width: 100%; padding: 14px 16px; font-family: 'Courier New', monospace; font-size: 0.78rem; line-height: 1.7; color: #8A9BB5; }
+        .preview-code .ln { color: #3A4A60; margin-right: 14px; user-select: none; }
+        .preview-code .kw { color: #38BDF8; }
+        .preview-code .fn { color: #A5F3FC; }
+        .preview-code .st { color: #86efac; }
+        .preview-code .cm { color: #3A4A60; font-style: italic; }
+
+        .github-banner {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 20px; max-width: 1200px; width: calc(100% - 16%);
+            margin: 0 auto 6%; background: var(--bg-raised); border: 1px solid var(--borda);
+            border-radius: 12px; padding: 28px 32px;
+        }
+        .github-banner__esq { display: flex; align-items: center; gap: 18px; }
+        .github-banner__icone {
+            width: 52px; height: 52px; border-radius: 50%; background: var(--azul-dim);
+            border: 1px solid var(--azul-border); display: flex; align-items: center;
+            justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+        }
+        .github-banner__titulo { font-family: var(--fonte-titulo); font-size: 1.15rem; font-weight: 700; color: var(--texto-prim); margin-bottom: 4px; }
+        .github-banner__sub { font-size: 0.9rem; color: var(--texto-sec); font-weight: 300; }
+        .btn-github-banner {
+            display: flex; align-items: center; gap: 10px; padding: 13px 24px; border-radius: 8px;
+            border: 1px solid var(--azul); background: var(--azul-dim); color: var(--azul);
+            font-family: var(--fonte-corpo); font-size: 0.92rem; font-weight: 600;
+            text-decoration: none; transition: all var(--trans); white-space: nowrap;
+        }
+        .btn-github-banner:hover { background: var(--azul); color: #0A0E1A; }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 999;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+            opacity: 0; visibility: hidden; transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .modal-overlay.aberto { opacity: 1; visibility: visible; }
+        .modal {
+            background: var(--bg-raised); border: 1px solid var(--azul-border); border-radius: 16px;
+            width: 100%; max-width: 680px; max-height: 88vh; overflow-y: auto;
+            transform: translateY(24px); transition: transform 0.25s ease;
+        }
+        .modal-overlay.aberto .modal { transform: translateY(0); }
+        .modal::-webkit-scrollbar { width: 5px; }
+        .modal::-webkit-scrollbar-thumb { background: var(--azul-border); border-radius: 3px; }
+        .modal__header { padding: 28px 28px 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+        .modal__header-esq { display: flex; align-items: center; gap: 16px; }
+        .modal__icone {
+            width: 52px; height: 52px; border-radius: 12px; background: var(--azul-dim);
+            border: 1px solid var(--azul-border); display: flex; align-items: center;
+            justify-content: center; font-size: 1.5rem; flex-shrink: 0;
+        }
+        .modal__titulo { font-family: var(--fonte-titulo); font-size: 1.35rem; font-weight: 700; color: var(--texto-prim); margin-bottom: 6px; }
+        .modal__tag { font-size: 0.75rem; font-weight: 600; padding: 3px 12px; border-radius: 20px; background: var(--azul-dim); color: var(--azul); border: 1px solid var(--azul-border); display: inline-block; }
+        .modal__fechar {
+            background: none; border: 1px solid var(--borda); border-radius: 8px;
+            width: 36px; height: 36px; cursor: pointer; color: var(--texto-sec);
+            font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: all var(--trans);
+        }
+        .modal__fechar:hover { border-color: var(--azul); color: var(--azul); }
+        .modal__body { padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 22px; }
+        .modal__secao-titulo { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--azul); margin-bottom: 10px; }
+        .modal__desc { font-size: 0.97rem; color: var(--texto-sec); line-height: 1.85; font-weight: 300; }
+        .modal__lista { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .modal__lista li { font-size: 0.95rem; color: var(--texto-sec); font-weight: 300; padding-left: 18px; position: relative; line-height: 1.6; margin: 0; }
+        .modal__lista li::before { content: '▸'; position: absolute; left: 0; color: var(--azul); font-size: 0.8rem; top: 3px; }
+        .modal__techs { display: flex; flex-wrap: wrap; gap: 8px; }
+        .modal__tech-badge { font-size: 0.82rem; font-weight: 500; padding: 5px 14px; border-radius: 8px; background: var(--azul-dim); border: 1px solid var(--azul-border); color: var(--azul); }
+        .modal__resultado { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+        .modal__resultado-item { background: var(--bg-surface); border: 1px solid var(--borda); border-radius: 10px; padding: 14px 16px; text-align: center; }
+        .modal__resultado-valor { font-family: var(--fonte-titulo); font-size: 1.4rem; font-weight: 700; color: var(--azul); margin-bottom: 4px; }
+        .modal__resultado-label { font-size: 0.78rem; color: var(--texto-sec); font-weight: 300; }
+        .modal__footer { padding: 0 28px 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+        .modal__codigo-wrapper { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid var(--borda); }
+        .modal__codigo {
+            background: var(--bg-deep); padding: 18px 20px; margin: 0; overflow-x: auto;
+            font-family: 'Courier New', monospace; font-size: 0.82rem; line-height: 1.75;
+            color: #8A9BB5; white-space: pre;
+        }
+        .modal__codigo code { display: block; }
+        .modal__copiar {
+            position: absolute; top: 10px; right: 10px; background: var(--azul-dim);
+            border: 1px solid var(--azul-border); border-radius: 6px; color: var(--azul);
+            font-family: var(--fonte-corpo); font-size: 0.75rem; font-weight: 600;
+            padding: 4px 12px; cursor: pointer; z-index: 2; transition: all var(--trans);
+        }
+        .modal__copiar:hover { background: var(--azul); color: #0A0E1A; }
+        .modal__codigo .kw { color: #38BDF8; }
+        .modal__codigo .fn { color: #A5F3FC; }
+        .modal__codigo .st { color: #86efac; }
+        .modal__codigo .cm { color: #3A4A60; font-style: italic; }
+        .modal__codigo .nm { color: #fbbf24; }
+
+        @media (max-width: 900px) {
+            .projetos-grid { grid-template-columns: 1fr; padding: 0 5% 6%; }
+            .projetos-hero, .projetos-controles { padding-left: 5%; padding-right: 5%; }
+            .github-banner { width: calc(100% - 10%); padding: 22px 20px; }
+            .projetos-controles { flex-direction: column; align-items: flex-start; }
+            .busca-input { width: 100%; }
+            .busca-wrapper { width: 100%; }
+        }
+        @media (max-width: 600px) {
+            .modal { border-radius: 12px; }
+            .modal__header, .modal__body, .modal__footer { padding-left: 18px; padding-right: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="cabecalho">
+        <nav class="cabecalho__menu">
+            <a class="cabecalho__menu__link" href="index.html">Home</a>
+            <a class="cabecalho__menu__link" href="about.html">Sobre mim</a>
+            <a class="cabecalho__menu__link" href="curriculo.html">Currículo</a>
+            <a class="cabecalho__menu__link" href="projetos.html">Projetos</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="projetos-hero">
+            <h1 class="projetos-hero__titulo">Meus <span>Projetos</span></h1>
+            <div class="projetos-hero__linha"></div>
+            <p class="projetos-hero__desc">Confira alguns dos projetos desenvolvidos para aplicar dados, tecnologia e soluções práticas.</p>
+        </div>
+
+        <div class="projetos-controles">
+            <div class="filtros">
+                <button class="filtro-btn ativo" onclick="filtrar('todos', this)">Todos</button>
+                <button class="filtro-btn" onclick="filtrar('dados', this)">Análise de Dados</button>
+                <button class="filtro-btn" onclick="filtrar('automacao', this)">Automação</button>
+                <button class="filtro-btn" onclick="filtrar('web', this)">Web</button>
+            </div>
+            <div class="busca-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input class="busca-input" type="text" placeholder="Buscar projetos..." oninput="buscar(this.value)">
+            </div>
+        </div>
+
+        <div class="projetos-grid" id="grid">
+
+            <!-- Card 1 -->
+            <article class="projeto-card" data-categoria="automacao" data-nome="organizador arquivos pasta python shutil">
+                <div class="card-header">
+                    <div class="card-header__esq">
+                        <div class="card-icone">📁</div>
+                        <div>
+                            <div class="card-titulo">Organizador de Arquivos em Pasta</div>
+                            <span class="card-tag">Automação</span>
+                        </div>
+                    </div>
+                    <button class="card-favorito" title="Favoritar">☆</button>
+                </div>
+                <p class="card-desc">Projeto em Python para organizar arquivos em pastas específicas automaticamente, utilizando as bibliotecas os e shutil para gerenciamento de arquivos por tipo.</p>
+                <div class="card-techs">
+                    <span>🐍 Python</span>
+                    <span class="dot"></span>
+                    <span>os</span>
+                    <span class="dot"></span>
+                    <span>shutil</span>
+                </div>
+                <div class="card-btns">
+                    <a class="btn-github" href="https://github.com/ltwendellopes/Organizador-de-aquivos/blob/main/Organizador_arquivos.py" target="_blank">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                        Ver no GitHub
+                    </a>
+                    <button class="btn-detalhes">Ver Detalhes →</button>
+                </div>
+                <div class="card-preview">
+                    <div class="preview-code">
+                        <div><span class="ln">1</span><span class="kw">import</span> os</div>
+                        <div><span class="ln">2</span><span class="kw">import</span> shutil</div>
+                        <div><span class="ln">3</span>&nbsp;</div>
+                        <div><span class="ln">4</span>tipos = {</div>
+                        <div><span class="ln">5</span>&nbsp;&nbsp;<span class="st">"Imagem"</span>: [<span class="st">".jpg"</span>, <span class="st">".png"</span>],</div>
+                        <div><span class="ln">6</span>&nbsp;&nbsp;<span class="st">"Documentos"</span>: [<span class="st">".pdf"</span>, <span class="st">".docx"</span>],</div>
+                        <div><span class="ln">7</span>&nbsp;&nbsp;<span class="st">"Planilhas"</span>: [<span class="st">".xlsx"</span>, <span class="st">".csv"</span>]</div>
+                        <div><span class="ln">8</span>}</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="projeto-card" data-categoria="automacao" data-nome="conferência presença eventos tkinter python">
+                <div class="card-header">
+                    <div class="card-header__esq">
+                        <div class="card-icone">✅</div>
+                        <div>
+                            <div class="card-titulo">Aplicativo de Conferência de Presença</div>
+                            <span class="card-tag">Automação</span>
+                        </div>
+                    </div>
+                    <button class="card-favorito" title="Favoritar">☆</button>
+                </div>
+                <p class="card-desc">Projeto em Python com interface gráfica para conferência de presença em eventos, utilizando tkinter para visualização e CSV para armazenamento dos dados dos participantes.</p>
+                <div class="card-techs">
+                    <span>🐍 Python</span>
+                    <span class="dot"></span>
+                    <span>tkinter</span>
+                    <span class="dot"></span>
+                    <span>CSV</span>
+                </div>
+                <div class="card-btns">
+                    <a class="btn-github" href="https://github.com/ltwendellopes/Aplicativo-conferencia-de-presen-a/blob/main/freela.py" target="_blank">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                        Ver no GitHub
+                    </a>
+                    <button class="btn-detalhes">Ver Detalhes →</button>
+                </div>
+                <div class="card-preview">
+                    <div class="preview-code">
+                        <div><span class="ln">1</span><span class="kw">import</span> tkinter <span class="kw">as</span> tk</div>
+                        <div><span class="ln">2</span><span class="kw">from</span> tkinter <span class="kw">import</span> ttk</div>
+                        <div><span class="ln">3</span><span class="kw">import</span> csv</div>
+                        <div><span class="ln">4</span>&nbsp;</div>
+                        <div><span class="ln">5</span>COR_FUNDO = <span class="st">"#F7F6F3"</span></div>
+                        <div><span class="ln">6</span>COR_CARD = <span class="st">"#FFFFFF"</span></div>
+                        <div><span class="ln">7</span>&nbsp;</div>
+                        <div><span class="ln">8</span><span class="kw">class</span> <span class="fn">App</span>(tk.Tk):</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="projeto-card" data-categoria="automacao" data-nome="web scraping automação python selenium mercado livre">
+                <div class="card-header">
+                    <div class="card-header__esq">
+                        <div class="card-icone">🤖</div>
+                        <div>
+                            <div class="card-titulo">Web Scraping de Produtos</div>
+                            <span class="card-tag">Automação</span>
+                        </div>
+                    </div>
+                    <button class="card-favorito" title="Favoritar">☆</button>
+                </div>
+                <p class="card-desc">Script de automação para coleta de preços e produtos em e-commerces, gerando relatórios CSV para análise e acompanhamento de mercado.</p>
+                <div class="card-techs">
+                    <span>🐍 Python</span>
+                    <span class="dot"></span>
+                    <span>Selenium</span>
+                    <span class="dot"></span>
+                    <span>CSV</span>
+                </div>
+                <div class="card-btns">
+                    <a class="btn-github" href="https://github.com/ltwendellopes" target="_blank">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                        Ver no GitHub
+                    </a>
+                    <button class="btn-detalhes">Ver Detalhes →</button>
+                </div>
+                <div class="card-preview">
+                    <div class="preview-code">
+                        <div><span class="ln">1</span><span class="kw">from</span> selenium <span class="kw">import</span> webdriver</div>
+                        <div><span class="ln">2</span><span class="kw">from</span> selenium.webdriver.common.by <span class="kw">import</span> By</div>
+                        <div><span class="ln">3</span>&nbsp;</div>
+                        <div><span class="ln">4</span>driver = webdriver.<span class="fn">Chrome</span>()</div>
+                        <div><span class="ln">5</span>driver.<span class="fn">get</span>(<span class="st">"https://mercadolivre.com.br"</span>)</div>
+                        <div><span class="ln">6</span>&nbsp;</div>
+                        <div><span class="ln">7</span><span class="cm"># Coleta preços e salva em CSV</span></div>
+                        <div><span class="ln">8</span>produtos = driver.<span class="fn">find_elements</span>(By.XPATH, <span class="st">"//h3"</span>)</div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="projeto-card" data-categoria="dados" data-nome="relatório kpi indicadores excel python openpyxl">
+                <div class="card-header">
+                    <div class="card-header__esq">
+                        <div class="card-icone">📈</div>
+                        <div>
+                            <div class="card-titulo">Gerador de Relatórios por Gerenciadora</div>
+                            <span class="card-tag">Análise de Dados</span>
+                        </div>
+                    </div>
+                    <button class="card-favorito" title="Favoritar">☆</button>
+                </div>
+                <p class="card-desc">Automação em Python que processa planilhas de OS com 60+ dias de atraso, aplica regras de negócio e gera relatórios Excel formatados por gerenciadora com histórico comparativo.</p>
+                <div class="card-techs">
+                    <span>🐍 Python</span>
+                    <span class="dot"></span>
+                    <span>openpyxl</span>
+                    <span class="dot"></span>
+                    <span>Pandas</span>
+                    <span class="dot"></span>
+                    <span>JSON</span>
+                </div>
+                <div class="card-btns">
+                    <a class="btn-github" href="https://github.com/ltwendellopes/Python-analise-de-dados-e-gerador-de-planilha/blob/main/codigo%20final%2060%2B.py" target="_blank">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                        Ver no GitHub
+                    </a>
+                    <button class="btn-detalhes">Ver Detalhes →</button>
+                </div>
+                <div class="card-preview">
+                    <div class="preview-code">
+                        <div><span class="ln">1</span><span class="kw">import</span> pandas <span class="kw">as</span> pd</div>
+                        <div><span class="ln">2</span><span class="kw">from</span> openpyxl <span class="kw">import</span> Workbook</div>
+                        <div><span class="ln">3</span>&nbsp;</div>
+                        <div><span class="ln">4</span><span class="cm"># Processa OS por gerenciadora</span></div>
+                        <div><span class="ln">5</span><span class="kw">for</span> ger <span class="kw">in</span> geradoras:</div>
+                        <div><span class="ln">6</span>&nbsp;&nbsp;df = tabela[tabela[<span class="st">"Gerenciadora"</span>] == ger]</div>
+                        <div><span class="ln">7</span>&nbsp;&nbsp;<span class="fn">build_sheet</span>(wb, ger, df)</div>
+                        <div><span class="ln">8</span>&nbsp;&nbsp;wb.<span class="fn">save</span>(<span class="st">f"OS_{ger}.xlsx"</span>)</div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="github-banner">
+            <div class="github-banner__esq">
+                <div class="github-banner__icone">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="var(--azul)"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                </div>
+                <div>
+                    <div class="github-banner__titulo">Veja mais projetos no meu GitHub</div>
+                    <div class="github-banner__sub">Explore repositórios, códigos e soluções que desenvolvi.</div>
+                </div>
+            </div>
+            <a class="btn-github-banner" href="https://github.com/ltwendellopes" target="_blank">Acessar GitHub ↗</a>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <p>Desenvolvido por Wendel Lopes &mdash; 2025</p>
+    </footer>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay" onclick="fecharModal(event)">
+        <div class="modal" id="modal">
+            <div class="modal__header">
+                <div class="modal__header-esq">
+                    <div class="modal__icone" id="modalIcone"></div>
+                    <div>
+                        <div class="modal__titulo" id="modalTitulo"></div>
+                        <span class="modal__tag" id="modalTag"></span>
+                    </div>
+                </div>
+                <button class="modal__fechar" onclick="fecharModalBtn()">✕</button>
+            </div>
+            <div class="modal__body">
+                <div>
+                    <div class="modal__secao-titulo">Sobre o projeto</div>
+                    <p class="modal__desc" id="modalDesc"></p>
+                </div>
+                <div id="modalResultadoBloco">
+                    <div class="modal__secao-titulo">Resultados</div>
+                    <div class="modal__resultado" id="modalResultado"></div>
+                </div>
+                <div id="modalAtividadesBloco">
+                    <div class="modal__secao-titulo">O que foi feito</div>
+                    <ul class="modal__lista" id="modalAtividades"></ul>
+                </div>
+                <div>
+                    <div class="modal__secao-titulo">Tecnologias utilizadas</div>
+                    <div class="modal__techs" id="modalTechs"></div>
+                </div>
+                <div id="modalCodigoBloco">
+                    <div class="modal__secao-titulo">Trecho do código</div>
+                    <div class="modal__codigo-wrapper">
+                        <button class="modal__copiar" id="btnCopiar" onclick="copiarCodigo()">Copiar</button>
+                        <pre class="modal__codigo"><code id="modalCodigo"></code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <a class="btn-github" id="modalGithubLink" href="#" target="_blank">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    Ver no GitHub
+                </a>
+                <a class="btn-detalhes" id="modalDemoLink" href="#" target="_blank" style="display:none">Ver demo ao vivo ↗</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const projetos = {
+            "organizador-arquivos": {
+                icone: "📁",
+                titulo: "Organizador de Arquivos em Pasta",
+                tag: "Automação",
+                desc: "Projeto em Python para organizar arquivos em pastas específicas automaticamente. O script identifica o tipo de cada arquivo pela extensão e move para a pasta correspondente usando as bibliotecas os e shutil.",
+                techs: ["Python", "os", "shutil"],
+                atividades: [
+                    "Leitura de todos os arquivos de uma pasta origem",
+                    "Classificação por tipo: Imagens, Documentos, Planilhas, Vídeos",
+                    "Criação automática das subpastas caso não existam",
+                    "Movimentação dos arquivos com shutil.move",
+                    "Log de arquivos organizados no terminal"
+                ],
+                resultados: [
+                    { valor: "Auto", label: "Organização" },
+                    { valor: "5+", label: "Tipos de arquivo" },
+                    { valor: "0", label: "Cliques manuais" }
+                ],
+                codigo: `import os
+import shutil
+
+pasta_origem = "C:/Users/Downloads"
+
+tipos = {
+    "Imagens":    [".jpg", ".jpeg", ".png", ".gif"],
+    "Documentos": [".pdf", ".docx", ".txt"],
+    "Planilhas":  [".xlsx", ".csv"],
+    "Videos":     [".mp4", ".mov", ".avi"]
+}
+
+for arquivo in os.listdir(pasta_origem):
+    ext = os.path.splitext(arquivo)[1].lower()
+    for pasta, extensoes in tipos.items():
+        if ext in extensoes:
+            destino = os.path.join(pasta_origem, pasta)
+            os.makedirs(destino, exist_ok=True)
+            shutil.move(
+                os.path.join(pasta_origem, arquivo),
+                os.path.join(destino, arquivo)
+            )
+            print(f"Movido: {arquivo} -> {pasta}")
+            break`,
+                github: "https://github.com/ltwendellopes/Organizador-de-aquivos/blob/main/Organizador_arquivos.py",
+                demo: ""
+            },
+            "conferencia-presenca": {
+                icone: "✅",
+                titulo: "Aplicativo de Conferência de Presença",
+                tag: "Automação",
+                desc: "Aplicativo desktop em Python com interface gráfica para conferência de presença em eventos. Permite marcar presentes, exportar lista em CSV e visualizar estatísticas dos participantes.",
+                techs: ["Python", "tkinter", "ttk", "CSV"],
+                atividades: [
+                    "Interface gráfica com tkinter e tema customizado",
+                    "Carregamento de lista de participantes via CSV",
+                    "Marcação de presença com clique na interface",
+                    "Exportação do relatório final em CSV",
+                    "Contador em tempo real de presentes e ausentes"
+                ],
+                resultados: [
+                    { valor: "GUI", label: "Interface gráfica" },
+                    { valor: "CSV", label: "Exportação" },
+                    { valor: "Real-time", label: "Contador" }
+                ],
+                codigo: `import tkinter as tk
+from tkinter import ttk
+import csv
+
+COR_FUNDO = "#F7F6F3"
+COR_CARD  = "#FFFFFF"
+
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Conferência de Presença")
+        self.geometry("800x600")
+        self.configure(bg=COR_FUNDO)
+        self.participantes = []
+        self.carregar_lista()
+        self.criar_interface()
+
+    def carregar_lista(self):
+        with open("participantes.csv", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            self.participantes = list(reader)
+
+    def marcar_presenca(self, nome):
+        for p in self.participantes:
+            if p["nome"] == nome:
+                p["presente"] = "Sim"
+        self.atualizar_contador()`,
+                github: "https://github.com/ltwendellopes/Aplicativo-conferencia-de-presen-a/blob/main/freela.py",
+                demo: ""
+            },
+            "web-scraping": {
+                icone: "🤖",
+                titulo: "Web Scraping de Produtos",
+                tag: "Automação",
+                desc: "Script de automação para coleta de preços e produtos em e-commerces como Mercado Livre, gerando relatórios CSV para análise e acompanhamento de preços de mercado.",
+                techs: ["Python", "Selenium", "CSV", "os"],
+                atividades: [
+                    "Automação do navegador com Selenium WebDriver",
+                    "Extração de nome e preço de cada produto listado",
+                    "Tratamento de erros e elementos não encontrados",
+                    "Exportação dos dados em CSV com encoding UTF-8",
+                    "Execução em loop para múltiplas páginas"
+                ],
+                resultados: [
+                    { valor: "50+", label: "Produtos/execução" },
+                    { valor: "CSV", label: "Exportação" },
+                    { valor: "Auto", label: "Coleta" }
+                ],
+                codigo: `from selenium import webdriver
+from selenium.webdriver.common.by import By
+import os
+
+driver = webdriver.Chrome()
+driver.get("https://lista.mercadolivre.com.br/ps5")
+
+produtos = driver.find_elements(
+    By.XPATH,
+    "//h3[@class='poly-component__title-wrapper']"
+)
+precos = driver.find_elements(
+    By.XPATH,
+    "//span[@class='andes-money-amount__fraction']"
+)
+
+print(f"Produtos: {len(produtos)} | Preços: {len(precos)}")
+
+with open("produtos.csv", "a", encoding="utf-8") as f:
+    for produto, preco in zip(produtos, precos):
+        linha = f"{produto.text};{preco.text}{os.linesep}"
+        f.write(linha)
+        print(linha.strip())
+
+print("Salvo em produtos.csv")
+driver.quit()`,
+                github: "https://github.com/ltwendellopes",
+                demo: ""
+            },
+            "gerador-relatorios": {
+                icone: "📈",
+                titulo: "Gerador de Relatórios por Gerenciadora",
+                tag: "Análise de Dados",
+                desc: "Automação em Python que processa planilhas de OS com 60+ dias de atraso, aplica regras de negócio para classificação de líderes e gera relatórios Excel formatados por gerenciadora com histórico comparativo entre períodos.",
+                techs: ["Python", "openpyxl", "Pandas", "JSON"],
+                atividades: [
+                    "Leitura e mesclagem de múltiplas planilhas Excel",
+                    "Aplicação de regras de negócio para classificação de líderes e NF",
+                    "Geração de abas de resumo com tabelas e gráficos de barras formatados",
+                    "Persistência de histórico diário em JSON para comparação entre datas",
+                    "Interface de seleção de arquivo via terminal"
+                ],
+                resultados: [
+                    { valor: "90%", label: "Tempo economizado" },
+                    { valor: "6+", label: "Gerenciadoras" },
+                    { valor: "Diário", label: "Atualização" }
+                ],
+                codigo: `import pandas as pd
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill
+
+def tratar_dados_os(caminho):
+    tabela = pd.read_excel(caminho, sheet_name=0)
+    tabela_carteira = pd.read_excel(CONFIG["carteiras_file"])
+
+    tabela_final = pd.merge(
+        tabela, tabela_carteira[["Cod","Lider","Gerenciadora"]],
+        left_on="Cod Cliente", right_on="Cod", how="left"
+    )
+
+    # Filtra 60+ dias em atraso
+    tabela_final = tabela_final[
+        tabela_final["Qtd Dias em Atraso"] >= 60
+    ]
+
+    # Regra: NF Link/NEO sem Equipe Plataforma -> Cliente
+    mask = (
+        tabela_final["Aba OS"].isin(["Validação NF","NF c/ Problema"]) &
+        (tabela_final["_vnf"] != "EQUIPE PLATAFORMA")
+    )
+    tabela_final.loc[mask, "Lider"] = "Cliente"
+    return tabela_final`,
+                github: "https://github.com/ltwendellopes/Python-analise-de-dados-e-gerador-de-planilha/blob/main/codigo%20final%2060%2B.py",
+                demo: ""
+            }
+        };
+
+        /* IDs na mesma ordem dos cards no HTML */
+        const ids = [
+            "organizador-arquivos",
+            "conferencia-presenca",
+            "web-scraping",
+            "gerador-relatorios"
+        ];
+
+        document.querySelectorAll('.projeto-card').forEach((card, i) => {
+            card.dataset.id = ids[i];
+        });
+
+        function highlight(code) {
+            return code
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/(#[^\n]*)/g, '<span class="cm">$1</span>')
+                .replace(/\/\/[^\n]*/g, '<span class="cm">$&</span>')
+                .replace(/\b(import|from|as|def|return|for|in|if|else|elif|with|class|and|or|not|True|False|None|super|break|continue)\b/g, '<span class="kw">$1</span>')
+                .replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, '<span class="st">$1</span>')
+                .replace(/\b(\d+\.?\d*)\b/g, '<span class="nm">$1</span>')
+                .replace(/\b([A-Za-z_][A-Za-z_0-9]*)\s*(?=\()/g, '<span class="fn">$1</span>');
+        }
+
+        function copiarCodigo() {
+            navigator.clipboard.writeText(document.getElementById('modalCodigo').innerText).then(() => {
+                const btn = document.getElementById('btnCopiar');
+                btn.textContent = '✓ Copiado!';
+                setTimeout(() => btn.textContent = 'Copiar', 2000);
+            });
+        }
+
+        function abrirModal(id) {
+            const p = projetos[id];
+            if (!p) return;
+
+            document.getElementById('modalIcone').textContent  = p.icone;
+            document.getElementById('modalTitulo').textContent = p.titulo;
+            document.getElementById('modalTag').textContent    = p.tag;
+            document.getElementById('modalDesc').textContent   = p.desc;
+
+            const resBloco = document.getElementById('modalResultadoBloco');
+            if (p.resultados && p.resultados.length) {
+                resBloco.style.display = '';
+                document.getElementById('modalResultado').innerHTML = p.resultados.map(r =>
+                    `<div class="modal__resultado-item">
+                        <div class="modal__resultado-valor">${r.valor}</div>
+                        <div class="modal__resultado-label">${r.label}</div>
+                    </div>`).join('');
+            } else { resBloco.style.display = 'none'; }
+
+            const atBloco = document.getElementById('modalAtividadesBloco');
+            if (p.atividades && p.atividades.length) {
+                atBloco.style.display = '';
+                document.getElementById('modalAtividades').innerHTML = p.atividades.map(a => `<li>${a}</li>`).join('');
+            } else { atBloco.style.display = 'none'; }
+
+            document.getElementById('modalTechs').innerHTML =
+                p.techs.map(t => `<span class="modal__tech-badge">${t}</span>`).join('');
+
+            document.getElementById('modalGithubLink').href = p.github || '#';
+            const demoLink = document.getElementById('modalDemoLink');
+            demoLink.style.display = p.demo ? '' : 'none';
+            if (p.demo) demoLink.href = p.demo;
+
+            const codBloco = document.getElementById('modalCodigoBloco');
+            if (p.codigo) {
+                codBloco.style.display = '';
+                document.getElementById('modalCodigo').innerHTML = highlight(p.codigo);
+            } else { codBloco.style.display = 'none'; }
+
+            document.getElementById('modalOverlay').classList.add('aberto');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModalBtn() {
+            document.getElementById('modalOverlay').classList.remove('aberto');
+            document.body.style.overflow = '';
+        }
+
+        function fecharModal(e) {
+            if (e.target === document.getElementById('modalOverlay')) fecharModalBtn();
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModalBtn(); });
+
+        document.querySelectorAll('.btn-detalhes').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
+                abrirModal(btn.closest('.projeto-card').dataset.id);
+            });
+        });
+
+        function filtrar(categoria, btn) {
+            document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
+            btn.classList.add('ativo');
+            document.querySelectorAll('.projeto-card').forEach(card => {
+                card.style.display = (categoria === 'todos' || card.dataset.categoria === categoria) ? '' : 'none';
+            });
+        }
+
+        function buscar(termo) {
+            const t = termo.toLowerCase();
+            document.querySelectorAll('.projeto-card').forEach(card => {
+                card.style.display = (card.dataset.nome || '').includes(t) ? '' : 'none';
+            });
+            if (t === '') document.querySelectorAll('.filtro-btn.ativo')[0]?.click();
+        }
+
+        document.querySelectorAll('.card-favorito').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.textContent = btn.textContent === '☆' ? '★' : '☆';
+                btn.style.color = btn.textContent === '★' ? 'var(--azul)' : '';
+            });
+        });
+    </script>
+
+</body>
+</html>
