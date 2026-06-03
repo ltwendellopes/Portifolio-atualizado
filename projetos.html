@@ -253,7 +253,7 @@
                     </div>
                     <button class="card-favorito" title="Favoritar">☆</button>
                 </div>
-                <p class="card-desc">Projeto em Python para organizar arquivos em pastas específicas automaticamente, utilizando as bibliotecas os e shutil para gerenciamento de arquivos por tipo.</p>
+                <p class="card-desc">Pastas de download acumulando arquivos de todo tipo? Script Python que organiza tudo automaticamente — cada arquivo vai para a pasta certa pela extensão, com zero cliques manuais. <em style="color:var(--azul);font-size:0.88rem;">Criado para resolver problema real do dia a dia.</em></p>
                 <div class="card-techs">
                     <span>🐍 Python</span>
                     <span class="dot"></span>
@@ -294,7 +294,7 @@
                     </div>
                     <button class="card-favorito" title="Favoritar">☆</button>
                 </div>
-                <p class="card-desc">Projeto em Python com interface gráfica para conferência de presença em eventos, utilizando tkinter para visualização e CSV para armazenamento dos dados dos participantes.</p>
+                <p class="card-desc">Substituiu o controle manual em papel por um aplicativo desktop com interface gráfica. Carrega a lista de convidados, registra presença com um clique e exporta o relatório final automaticamente. <em style="color:var(--azul);font-size:0.88rem;">Desenvolvido como solução freelance para evento real.</em></p>
                 <div class="card-techs">
                     <span>🐍 Python</span>
                     <span class="dot"></span>
@@ -335,7 +335,7 @@
                     </div>
                     <button class="card-favorito" title="Favoritar">☆</button>
                 </div>
-                <p class="card-desc">Script de automação para coleta de preços e produtos em e-commerces, gerando relatórios CSV para análise e acompanhamento de mercado.</p>
+                <p class="card-desc">Pesquisa de mercado automatizada: coleta todos os produtos e preços de uma página de e-commerce em segundos e exporta em CSV pronto para análise — sem nenhuma busca manual. <em style="color:var(--azul);font-size:0.88rem;">Aplicado em pesquisa de mercado para análise de preços.</em></p>
                 <div class="card-techs">
                     <span>🐍 Python</span>
                     <span class="dot"></span>
@@ -376,7 +376,7 @@
                     </div>
                     <button class="card-favorito" title="Favoritar">☆</button>
                 </div>
-                <p class="card-desc">Automação em Python que processa planilhas de OS com 60+ dias de atraso, aplica regras de negócio e gera relatórios Excel formatados por gerenciadora com histórico comparativo.</p>
+                <p class="card-desc">Geração manual de relatórios para 3 gerenciadoras levava 1 dia de trabalho. Automação em Python reduziu para 2 minutos — solução desenvolvida e usada diariamente na empresa.</p>
                 <div class="card-techs">
                     <span>🐍 Python</span>
                     <span class="dot"></span>
@@ -479,20 +479,20 @@
         const projetos = {
             "organizador-arquivos": {
                 icone: "📁",
-                titulo: "Organizador de Arquivos em Pasta",
+                titulo: "Organizador Automático de Arquivos",
                 tag: "Automação",
-                desc: "Projeto em Python para organizar arquivos em pastas específicas automaticamente. O script identifica o tipo de cada arquivo pela extensão e move para a pasta correspondente usando as bibliotecas os e shutil.",
+                desc: "Problema: pastas de download acumulando centenas de arquivos misturados sem organização. Solução: script Python que identifica cada arquivo pela extensão e move automaticamente para a pasta correta. Resultado: pasta sempre organizada com zero esforço manual.",
                 techs: ["Python", "os", "shutil"],
                 atividades: [
-                    "Leitura de todos os arquivos de uma pasta origem",
-                    "Classificação por tipo: Imagens, Documentos, Planilhas, Vídeos",
-                    "Criação automática das subpastas caso não existam",
-                    "Movimentação dos arquivos com shutil.move",
-                    "Log de arquivos organizados no terminal"
+                    "Problema: arquivos de tipos diferentes acumulados na mesma pasta sem organização",
+                    "Solução: script que lê a extensão de cada arquivo e move para a subpasta correspondente",
+                    "Criação automática das subpastas (Imagens, Documentos, Planilhas, Vídeos) se não existirem",
+                    "Resultado: organização completa da pasta com um único comando, zero cliques manuais",
+                    "Log no terminal mostrando cada arquivo movido e para qual pasta"
                 ],
                 resultados: [
-                    { valor: "Auto", label: "Organização" },
-                    { valor: "5+", label: "Tipos de arquivo" },
+                    { valor: "100%", label: "Automático" },
+                    { valor: "5+", label: "Tipos organizados" },
                     { valor: "0", label: "Cliques manuais" }
                 ],
                 codigo: `import os
@@ -524,21 +524,21 @@ for arquivo in os.listdir(pasta_origem):
             },
             "conferencia-presenca": {
                 icone: "✅",
-                titulo: "Aplicativo de Conferência de Presença",
+                titulo: "Controle de Presença em Eventos",
                 tag: "Automação",
-                desc: "Aplicativo desktop em Python com interface gráfica para conferência de presença em eventos. Permite marcar presentes, exportar lista em CSV e visualizar estatísticas dos participantes.",
+                desc: "Problema: controle de presença em eventos feito manualmente em papel, lento e sujeito a erros. Solução: aplicativo desktop com interface gráfica que carrega a lista de convidados e registra presença com um clique. Resultado: processo digitalizado com relatório exportado automaticamente ao final do evento.",
                 techs: ["Python", "tkinter", "ttk", "CSV"],
                 atividades: [
-                    "Interface gráfica com tkinter e tema customizado",
-                    "Carregamento de lista de participantes via CSV",
-                    "Marcação de presença com clique na interface",
-                    "Exportação do relatório final em CSV",
-                    "Contador em tempo real de presentes e ausentes"
+                    "Problema: conferência de presença manual em papel, lenta e sem relatório automático",
+                    "Solução: aplicativo desktop com interface gráfica desenvolvido em Python + tkinter",
+                    "Carregamento da lista de participantes via CSV antes do evento",
+                    "Marcação de presença com clique na interface — sem digitar nada",
+                    "Resultado: relatório final exportado em CSV com presentes e ausentes automaticamente"
                 ],
                 resultados: [
-                    { valor: "GUI", label: "Interface gráfica" },
-                    { valor: "CSV", label: "Exportação" },
-                    { valor: "Real-time", label: "Contador" }
+                    { valor: "100%", label: "Digitalizado" },
+                    { valor: "1 clique", label: "Por presença" },
+                    { valor: "Auto", label: "Relatório final" }
                 ],
                 codigo: `import tkinter as tk
 from tkinter import ttk
@@ -572,21 +572,21 @@ class App(tk.Tk):
             },
             "web-scraping": {
                 icone: "🤖",
-                titulo: "Web Scraping de Produtos",
+                titulo: "Coleta Automática de Preços para Pesquisa de Mercado",
                 tag: "Automação",
-                desc: "Script de automação para coleta de preços e produtos em e-commerces como Mercado Livre, gerando relatórios CSV para análise e acompanhamento de preços de mercado.",
+                desc: "Problema: pesquisa de preços e produtos em e-commerces feita manualmente, item por item, consumindo tempo e limitando a quantidade analisada. Solução: script que automatiza o navegador e coleta todos os produtos e preços de uma página em segundos. Resultado: dados exportados em CSV prontos para análise de mercado.",
                 techs: ["Python", "Selenium", "CSV", "os"],
                 atividades: [
-                    "Automação do navegador com Selenium WebDriver",
-                    "Extração de nome e preço de cada produto listado",
-                    "Tratamento de erros e elementos não encontrados",
-                    "Exportação dos dados em CSV com encoding UTF-8",
-                    "Execução em loop para múltiplas páginas"
+                    "Problema: pesquisa manual de preços limitava a quantidade de produtos analisados",
+                    "Solução: automação do navegador com Selenium para coletar todos os itens da página",
+                    "Extração simultânea de nome do produto e preço de cada item listado",
+                    "Exportação automática dos dados em CSV com encoding UTF-8",
+                    "Resultado: coleta completa de uma página de e-commerce em segundos, pronta para análise"
                 ],
                 resultados: [
-                    { valor: "50+", label: "Produtos/execução" },
-                    { valor: "CSV", label: "Exportação" },
-                    { valor: "Auto", label: "Coleta" }
+                    { valor: "50+", label: "Produtos por coleta" },
+                    { valor: "Segundos", label: "Tempo de coleta" },
+                    { valor: "CSV", label: "Pronto p/ análise" }
                 ],
                 codigo: `from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -619,21 +619,21 @@ driver.quit()`,
             },
             "gerador-relatorios": {
                 icone: "📈",
-                titulo: "Gerador de Relatórios por Gerenciadora",
+                titulo: "Automação de Relatórios Gerenciais — de 1 dia para 2 minutos",
                 tag: "Análise de Dados",
-                desc: "Automação em Python que processa planilhas de OS com 60+ dias de atraso, aplica regras de negócio para classificação de líderes e gera relatórios Excel formatados por gerenciadora com histórico comparativo entre períodos.",
+                desc: "Problema: geração manual de relatórios de OS para 3 gerenciadoras levava 1 dia inteiro de trabalho. Solução: automação em Python que processa as planilhas, aplica regras de negócio e gera 3 relatórios Excel formatados automaticamente. Resultado: processo que levava 1 dia passou a ser feito em 2 minutos — usado diariamente na empresa.",
                 techs: ["Python", "openpyxl", "Pandas", "JSON"],
                 atividades: [
-                    "Leitura e mesclagem de múltiplas planilhas Excel",
-                    "Aplicação de regras de negócio para classificação de líderes e NF",
-                    "Geração de abas de resumo com tabelas e gráficos de barras formatados",
-                    "Persistência de histórico diário em JSON para comparação entre datas",
-                    "Interface de seleção de arquivo via terminal"
+                    "Problema: relatórios feitos manualmente consumiam 1 dia completo de trabalho por rodada",
+                    "Solução: automação que lê planilhas de OS, aplica regras de negócio e gera relatórios formatados",
+                    "Geração simultânea de 3 relatórios Excel — um por gerenciadora — em uma única execução",
+                    "Histórico diário salvo em JSON para comparação de resultados entre períodos",
+                    "Resultado: redução de 1 dia para 2 minutos — solução adotada e usada diariamente no trabalho"
                 ],
                 resultados: [
-                    { valor: "90%", label: "Tempo economizado" },
-                    { valor: "6+", label: "Gerenciadoras" },
-                    { valor: "Diário", label: "Atualização" }
+                    { valor: "1 dia → 2min", label: "Tempo de geração" },
+                    { valor: "3", label: "Relatórios por rodada" },
+                    { valor: "Produção", label: "Usado na empresa" }
                 ],
                 codigo: `import pandas as pd
 from openpyxl import Workbook
